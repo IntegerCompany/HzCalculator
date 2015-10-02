@@ -31,4 +31,12 @@ public class CalculationsTest {
         Assert.assertEquals(110.7d, calculator.getTotalReceive_dBm(), totalReceiveDelta);
     }
 
+    @Test
+    public void testFreeSpacePathLossCalculations() {
+        double freeSpacePathLossDelta = 0.001d;
+
+        calculator.calculateFreeSpacePathLoss(3600d, 80d);
+        Assert.assertEquals(141.655d, calculator.getFreeSpacePathLoss(), freeSpacePathLossDelta);
+    }
+
 }
