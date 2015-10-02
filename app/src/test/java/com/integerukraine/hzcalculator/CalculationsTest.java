@@ -16,7 +16,7 @@ public class CalculationsTest {
         double totalErpDelta = 0.1d;
         double erpInWattsDelta = 0.01d;
 
-        calculator.calculateTxGain(40d, 13d, 2.8d);
+        calculator.calculate_TxGain(40d, 13d, 2.8d);
         Assert.assertEquals(50.2d, calculator.getTotalErp_dB(), totalErpDelta);
         Assert.assertEquals(104.71d, calculator.getErpInWatts(), erpInWattsDelta);
     }
@@ -25,9 +25,9 @@ public class CalculationsTest {
     public void testRxGainCalculations() {
         double totalReceiveDelta = 0.1d;
 
-        calculator.calculateRxGain(86d, 27d, 2.3d);
+        calculator.calculate_RxGain(86d, 27d, 2.3d);
         Assert.assertEquals(110.7d, calculator.getTotalReceive_dBm(), totalReceiveDelta);
-        calculator.calculateRxGain(-86d, 27d, 2.3d);
+        calculator.calculate_RxGain(-86d, 27d, 2.3d);
         Assert.assertEquals(110.7d, calculator.getTotalReceive_dBm(), totalReceiveDelta);
     }
 
@@ -35,8 +35,18 @@ public class CalculationsTest {
     public void testFreeSpacePathLossCalculations() {
         double freeSpacePathLossDelta = 0.001d;
 
-        calculator.calculateFreeSpacePathLoss(3600d, 80d);
+        calculator.calculate_FreeSpacePathLoss(3600d, 80d);
         Assert.assertEquals(141.655d, calculator.getFreeSpacePathLoss(), freeSpacePathLossDelta);
+    }
+
+    @Test
+    public void testFresnelAtSpecificPointCalculations() {
+        double FresnelRadiusAtObsticalDelta = 0.01d;
+        double obstacleClearanceRequiredDelta = 0.01d;
+
+        calculator.calculate_FresnelAtSpecificPoint(0.005d, 80, 3600);
+        Assert.assertEquals(0.65d, calculator.getFresnelRadiusAtObstical_M(), FresnelRadiusAtObsticalDelta);
+        Assert.assertEquals(0.39d, calculator.getObstacleClearanceRequired_M(), obstacleClearanceRequiredDelta);
     }
 
 }
