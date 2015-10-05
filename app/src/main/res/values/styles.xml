@@ -5,4 +5,28 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ArgumentsInput.EditText" parent="@android:style/Widget.EditText">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="Result.TextView" parent="@android:style/Widget.TextView">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="Header.TextView" parent="@android:style/Widget.TextView">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="floatlabelededittext">
+        <item name="android:textColor">#676767</item>
+    </style>
+
 </resources>
