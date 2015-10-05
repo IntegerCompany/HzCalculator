@@ -1,10 +1,17 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/base_background"
     tools:context=".MainActivity">
+
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+        >
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,7 +108,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Total ERP (dB): 88.88"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
@@ -111,7 +117,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:text="ERP In Watts: 88.88"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -207,7 +212,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Total Receive (dBm): 88.88"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 </LinearLayout>
@@ -291,7 +295,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:text="Free Space Path Loss: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -373,7 +376,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Fresnel Radius at Obstical (M): 88.88"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
@@ -383,7 +385,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:text="Obstacle Clearance Required (M): 88.88"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -452,7 +453,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="1st Fresnel Radius (M): 88.88"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
@@ -462,7 +462,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:text="Earth Height -Mid Point (M): 88.88"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -543,7 +542,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="LoS (in KM): 88.88"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 </LinearLayout>
@@ -613,7 +611,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Power in Watts: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
@@ -623,7 +620,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:text="Power in mW: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -691,7 +687,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Power in dBm: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 </LinearLayout>
@@ -760,7 +755,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Power in dBm: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -819,13 +813,6 @@
                         android:layout_height="wrap_content"
                         app:fletTextAppearance="@style/floatlabelededittext">
 
-                        <EditText
-                            android:id="@+id/et_gain"
-                            style="@style/ArgumentsInput.EditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="Gain (dBi)" />
                     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
                 </LinearLayout>
 
@@ -842,7 +829,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Theoretical 3dB Beamwidth: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -910,7 +896,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Power Density (mW/cm²): 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -979,7 +964,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Distance Kilometres: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
@@ -988,7 +972,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Distance Naughtical Miles (NM): 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -1057,7 +1040,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Distance Miles: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
@@ -1066,7 +1048,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Distance Naughtical Miles (NM): 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -1135,7 +1116,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Distance Miles: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
@@ -1144,7 +1124,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Distance Kilometres: 888.888"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
             </LinearLayout>
@@ -1152,3 +1131,13 @@
 
     </LinearLayout>
 </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/float_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="32dp"
+        android:layout_marginRight="24dp"
+        android:src="@mipmap/chart_ic" />
+</FrameLayout>
