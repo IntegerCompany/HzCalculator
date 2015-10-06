@@ -1,9 +1,11 @@
 package com.integerukraine.hzcalculator.calculations;
 
+import java.io.Serializable;
+
 /**
  * Created by Andriy on 10/2/2015.
  */
-public class Calculations {
+public class Calculations implements Serializable {
 
     private static final double SPEED_OF_LIGHT = 299792458d;
 
