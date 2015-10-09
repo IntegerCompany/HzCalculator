@@ -19,6 +19,78 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/base_white"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                style="@style/Header.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Initial data"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:fletTextAppearance="@style/floatlabelededittext">
+
+                        <EditText
+                            android:id="@+id/et_fade"
+                            style="@style/ArgumentsInput.EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Fade &amp; Environmental Margin dB" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:fletTextAppearance="@style/floatlabelededittext">
+
+                        <EditText
+                            android:id="@+id/et_rain"
+                            style="@style/ArgumentsInput.EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Rain Attenuation (dB)" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:fletTextAppearance="@style/floatlabelededittext">
+
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/tx_gain_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -347,20 +419,6 @@
                             android:hint="Distance to obstical (KM)" />
                     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:fletTextAppearance="@style/floatlabelededittext">
-
-                        <EditText
-                            android:id="@+id/et_total_link_distance"
-                            style="@style/ArgumentsInput.EditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="Total Link Distance (KM)" />
-                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -380,83 +438,6 @@
 
                     <TextView
                         android:id="@+id/tv_obstacle_clearance_required"
-                        style="@style/Result.TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/base_white"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <TextView
-                android:id="@+id/textView13"
-                style="@style/Header.TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="1st Fresnel Radius (at midpoint)"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:fletTextAppearance="@style/floatlabelededittext">
-
-                        <EditText
-                            android:id="@+id/et_link_distance"
-                            style="@style/ArgumentsInput.EditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="Link Distance (KM)" />
-                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_1st_fresnel_radius"
-                        style="@style/Result.TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    <TextView
-                        android:id="@+id/tv_earth_height_midpoint"
                         style="@style/Result.TextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1129,15 +1110,13 @@
             </LinearLayout>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calculate" />
+
     </LinearLayout>
 </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/float_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="32dp"
-        android:layout_marginRight="24dp"
-        android:src="@mipmap/chart_ic" />
 </FrameLayout>

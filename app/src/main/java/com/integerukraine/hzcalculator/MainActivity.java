@@ -2,11 +2,11 @@ package com.integerukraine.hzcalculator;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,9 +19,13 @@ public class MainActivity extends AppCompatActivity {
 
     Calculations calculations = new Calculations();
     DecimalFormat decimalFormat = new DecimalFormat("#.###");
-    FloatingActionButton fab;
+    //    FloatingActionButton fab;
+    Button submitBtn;
     ArrayList<EditText> requiredEditTexts = new ArrayList<>();
 
+
+    // Init data
+    EditText etFade, etRain;
     //Tx Gain
     EditText etTxOutput, etTxAntennaGain, etTxCableLosses;
     TextView tvTotalErp, tvErpWatts;
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvFreeSpacePathLoss;
 
     //Fresnel at specific point
-    EditText etDistanceObstical, etTotalLinkDistance;
+    EditText etDistanceObstical;
     TextView tvFresnelRadiusObstical, tvObstacleClearanceRequired;
 
     // 1st Fresnel Radius (at midpoint)
@@ -84,21 +88,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         initUiListeners();
-        initFloatActionButton();
+        // initFloatActionButton();
+        initSubmitButton();
         initRequiredEditTexts();
     }
 
+    private void initSubmitButton() {
+        submitBtn = (Button) findViewById(R.id.btn_submit);
+        submitBtn.setEnabled(false);
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calculations.calculate_1stFresnelRadiusAtMidpoint(Double.parseDouble(etDistance.getText().toString()), Double.parseDouble(etFrequency.getText().toString()));
+                calculations.calculate_LinkBudget_dB();
+                calculations.calculate_SafeWorkingDistance(Double.parseDouble(etFrequency.getText().toString()));
+                Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+                intent.putExtra("Calculations", calculations);
+                startActivity(intent);
+            }
+        });
+    }
+
     private boolean isAllRequiredEditTextsFilled() {
-        //TODO remove
+
+        for (EditText editText : requiredEditTexts) {
+
+            if (editText.getText().length() == 0) return false;
+        }
         return true;
-        //-----
-//        for (EditText editText : requiredEditTexts){
-//            if (editText.getText().length() == 0) return false;
-//        }
-//        return true;
     }
 
     private void initRequiredEditTexts() {
+        requiredEditTexts.add(etFade);
+        requiredEditTexts.add(etRain);
         requiredEditTexts.add(etTxOutput);
         requiredEditTexts.add(etTxAntennaGain);
         requiredEditTexts.add(etTxCableLosses);
@@ -108,34 +130,57 @@ public class MainActivity extends AppCompatActivity {
         requiredEditTexts.add(etFrequency);
         requiredEditTexts.add(etDistance);
         requiredEditTexts.add(etDistanceObstical);
-        requiredEditTexts.add(etTotalLinkDistance);
-        requiredEditTexts.add(etLinkDistance);
         requiredEditTexts.add(etAntenna1Height);
         requiredEditTexts.add(etAntenna2Height);
-        requiredEditTexts.add(etPowerDbm);
-        requiredEditTexts.add(etPowerWatts);
-        requiredEditTexts.add(etPowerMWatts);
+//        requiredEditTexts.add(etPowerDbm);
+//        requiredEditTexts.add(etPowerWatts);
+//        requiredEditTexts.add(etPowerMWatts);
         requiredEditTexts.add(etDiameter);
         requiredEditTexts.add(etPowerDensityRangeMetres);
-        requiredEditTexts.add(etDistanceMiles);
-        requiredEditTexts.add(etDistanceKilometres);
-        requiredEditTexts.add(etDistanceNaughticalMiles);
+//        requiredEditTexts.add(etDistanceMiles);
+//        requiredEditTexts.add(etDistanceKilometres);
+//        requiredEditTexts.add(etDistanceNaughticalMiles);
     }
 
-    private void initFloatActionButton() {
-        fab = (FloatingActionButton) findViewById(R.id.float_action_button);
-        fab.hide();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ResultActivity.class);
-                intent.putExtra("Calculations", calculations);
-                startActivity(intent);
-            }
-        });
-    }
+//    private void initFloatActionButton() {
+//        fab = (FloatingActionButton) findViewById(R.id.float_action_button);
+//        fab.hide();
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+//                intent.putExtra("Calculations", calculations);
+//                startActivity(intent);
+//            }
+//        });
+//    }
 
     private void initUiListeners() {
+        //init data
+        TextWatcher initDataListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (etFade.getText().length() > 0 & etRain.getText().length() > 0) {
+                    calculations.init(
+                            Double.parseDouble(etFade.getText().toString()),
+                            Double.parseDouble(etRain.getText().toString()));
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        etFade.addTextChangedListener(initDataListener);
+        etRain.addTextChangedListener(initDataListener);
         //Tx Gain
         TextWatcher txGainListener = new TextWatcher() {
             @Override
@@ -150,13 +195,11 @@ public class MainActivity extends AppCompatActivity {
                             Double.parseDouble(etTxOutput.getText().toString()),
                             Double.parseDouble(etTxAntennaGain.getText().toString()),
                             Double.parseDouble(etTxCableLosses.getText().toString()));
+                    DecimalFormat decimalFormat = new DecimalFormat("#.#");
                     tvTotalErp.setText("Total ERP (dB): " + decimalFormat.format(calculations.getTotalErp_dB()));
+                    decimalFormat = new DecimalFormat("#.##");
                     tvErpWatts.setText("ERP In Watts: " + decimalFormat.format(calculations.getErpInWatts()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvTotalErp.setText("");
                     tvErpWatts.setText("");
@@ -188,12 +231,9 @@ public class MainActivity extends AppCompatActivity {
                             Double.parseDouble(etRxSensivity.getText().toString()),
                             Double.parseDouble(etRxAnntennaGain.getText().toString()),
                             Double.parseDouble(etRxCableLosses.getText().toString()));
+                    DecimalFormat decimalFormat = new DecimalFormat("#.#");
                     tvTotalReceive.setText("Total Receive (dBm): " + decimalFormat.format(calculations.getTotalReceive_dBm()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvTotalReceive.setText("");
                 }
@@ -223,11 +263,7 @@ public class MainActivity extends AppCompatActivity {
                             Double.parseDouble(etFrequency.getText().toString()),
                             Double.parseDouble(etDistance.getText().toString()));
                     tvFreeSpacePathLoss.setText("Free Space Path Loss: " + decimalFormat.format(calculations.getFreeSpacePathLoss()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvFreeSpacePathLoss.setText("");
                 }
@@ -251,18 +287,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (etDistanceObstical.getText().length() > 0 & etTotalLinkDistance.getText().length() > 0 & etFrequency.getText().length() > 0) {
+                if (etDistanceObstical.getText().length() > 0 & etDistance.getText().length() > 0 & etFrequency.getText().length() > 0) {
                     calculations.calculate_FresnelAtSpecificPoint(
                             Double.parseDouble(etDistanceObstical.getText().toString()),
-                            Double.parseDouble(etTotalLinkDistance.getText().toString()),
+                            Double.parseDouble(etDistance.getText().toString()),
                             Double.parseDouble(etFrequency.getText().toString()));
+                    DecimalFormat decimalFormat = new DecimalFormat("#.##");
                     tvFresnelRadiusObstical.setText("Fresnel Radius at Obstical (M): " + decimalFormat.format(calculations.getFresnelRadiusAtObstical_M()));
                     tvObstacleClearanceRequired.setText("Fresnel Radius at Obstical (M): " + decimalFormat.format(calculations.getObstacleClearanceRequired_M()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvFresnelRadiusObstical.setText("");
                     tvObstacleClearanceRequired.setText("");
@@ -276,43 +309,43 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         etDistanceObstical.addTextChangedListener(fresnelSpecificPointListener);
-        etTotalLinkDistance.addTextChangedListener(fresnelSpecificPointListener);
+        etDistance.addTextChangedListener(fresnelSpecificPointListener);
         etFrequency.addTextChangedListener(fresnelSpecificPointListener);
 
-        // 1st Fresnel Radius (at midpoint)
-        TextWatcher fresnelMidpointPointListener = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (etLinkDistance.getText().length() > 0 & etFrequency.getText().length() > 0) {
-                    calculations.calculate_1stFresnelRadiusAtMidpoint(
-                            Double.parseDouble(etLinkDistance.getText().toString()),
-                            Double.parseDouble(etFrequency.getText().toString()));
-                    tv1stFresnelRadius.setText("1st Fresnel Radius (M): " + decimalFormat.format(calculations.getFresnelRadius1st_M()));
-                    tvEarthHeightMidpoint.setText("Earth Height -Mid Point (M): 88.88" + decimalFormat.format(calculations.getEarthHeightMidpoint_M()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
-                } else {
-                    tv1stFresnelRadius.setText("");
-                    tvEarthHeightMidpoint.setText("");
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-        etLinkDistance.addTextChangedListener(fresnelMidpointPointListener);
-        etFrequency.addTextChangedListener(fresnelMidpointPointListener);
+//        // 1st Fresnel Radius (at midpoint)
+//        TextWatcher fresnelMidpointPointListener = new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (etLinkDistance.getText().length() > 0 & etFrequency.getText().length() > 0) {
+//                    calculations.calculate_1stFresnelRadiusAtMidpoint(
+//                            Double.parseDouble(etDistance.getText().toString()),
+//                            Double.parseDouble(etFrequency.getText().toString()));
+//                    tv1stFresnelRadius.setText("1st Fresnel Radius (M): " + decimalFormat.format(calculations.getFresnelRadius1st_M()));
+//                    tvEarthHeightMidpoint.setText("Earth Height -Mid Point (M): 88.88" + decimalFormat.format(calculations.getEarthHeightMidpoint_M()));
+//                    if (isAllRequiredEditTextsFilled()) {
+//                        fab.show();
+//                    } else {
+//                        fab.hide();
+//                    }
+//                } else {
+//                    tv1stFresnelRadius.setText("");
+//                    tvEarthHeightMidpoint.setText("");
+//                }
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        };
+//        etLinkDistance.addTextChangedListener(fresnelMidpointPointListener);
+//        etFrequency.addTextChangedListener(fresnelMidpointPointListener);
 
         // Line Of Site
         TextWatcher lineOfSiteListener = new TextWatcher() {
@@ -327,12 +360,9 @@ public class MainActivity extends AppCompatActivity {
                     calculations.calculate_LineOfSite(
                             Double.parseDouble(etAntenna1Height.getText().toString()),
                             Double.parseDouble(etAntenna2Height.getText().toString()));
+                    DecimalFormat decimalFormat = new DecimalFormat("#.##");
                     tvLos.setText("LoS (in KM): " + decimalFormat.format(calculations.getLoS_KM()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvLos.setText("");
                 }
@@ -361,11 +391,7 @@ public class MainActivity extends AppCompatActivity {
                             Double.parseDouble(etPowerDbm.getText().toString()));
                     tvPowerWatts.setText("Power in Watts: " + decimalFormat.format(calculations.getPower_W()));
                     tvPowerMWatts.setText("Power in mW: " + decimalFormat.format(calculations.getPower_mW()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvPowerWatts.setText("");
                     tvPowerMWatts.setText("");
@@ -393,11 +419,7 @@ public class MainActivity extends AppCompatActivity {
                     calculations.calculate_WattsdBm(
                             Double.parseDouble(etPowerWatts.getText().toString()));
                     tvPowerDbm.setText("Power in dBm: " + decimalFormat.format(calculations.getPower_dBm()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvPowerDbm.setText("");
                 }
@@ -424,11 +446,7 @@ public class MainActivity extends AppCompatActivity {
                     calculations.calculate_mWattsdBm(
                             Double.parseDouble(etPowerMWatts.getText().toString()));
                     tvPowerDbm2.setText("Power in dBm: " + decimalFormat.format(calculations.getPower_dBm()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvPowerDbm2.setText("");
                 }
@@ -455,12 +473,9 @@ public class MainActivity extends AppCompatActivity {
                     calculations.calculate_WavelengthAlpha(Double.parseDouble(etFrequency.getText().toString()));
                     calculations.calculate_ParabolicAntennaGain(
                             Double.parseDouble(etDiameter.getText().toString()));
+                    DecimalFormat decimalFormat = new DecimalFormat("#.##");
                     tvTheoreticalBeamwidth.setText("Theoretical 3dB Beamwidth: " + decimalFormat.format(calculations.getTheoretical3dBBeamwidth()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvTheoreticalBeamwidth.setText("");
                 }
@@ -487,12 +502,9 @@ public class MainActivity extends AppCompatActivity {
                 if (etPowerDensityRangeMetres.getText().length() > 0) {
                     calculations.calculate_PowerDensity(
                             Double.parseDouble(etPowerDensityRangeMetres.getText().toString()));
+                    DecimalFormat decimalFormat = new DecimalFormat("#.####");
                     tvPowerDensity.setText("Power Density (mW/cm²): " + decimalFormat.format(calculations.getPowerDensity_mWcm()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvPowerDensity.setText("");
                 }
@@ -520,11 +532,7 @@ public class MainActivity extends AppCompatActivity {
                             Double.parseDouble(etDistanceMiles.getText().toString()));
                     tvDistanceKilometres.setText("Distance Kilometres: " + decimalFormat.format(calculations.getDistanceKilometres()));
                     tvDistanceNaughticalMiles.setText("Distance Naughtical Miles (NM): " + decimalFormat.format(calculations.getDistanceNaughticalMiles_NM()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvDistanceKilometres.setText("");
                     tvDistanceNaughticalMiles.setText("");
@@ -553,11 +561,7 @@ public class MainActivity extends AppCompatActivity {
                             Double.parseDouble(etDistanceKilometres.getText().toString()));
                     tvDistanceMiles.setText("Distance Miles: " + decimalFormat.format(calculations.getDistanceMiles()));
                     tvDistanceNaughticalMiles2.setText("Distance Naughtical Miles (NM): " + decimalFormat.format(calculations.getDistanceNaughticalMiles_NM()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvDistanceMiles.setText("");
                     tvDistanceNaughticalMiles2.setText("");
@@ -586,11 +590,7 @@ public class MainActivity extends AppCompatActivity {
                             Double.parseDouble(etDistanceNaughticalMiles.getText().toString()));
                     tvDistanceMiles2.setText("Distance Miles: " + decimalFormat.format(calculations.getDistanceMiles()));
                     tvDistanceKilometres2.setText("Distance Kilometres: " + decimalFormat.format(calculations.getDistanceKilometres()));
-                    if (isAllRequiredEditTextsFilled()) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-                    }
+                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvDistanceMiles2.setText("");
                     tvDistanceKilometres2.setText("");
@@ -607,6 +607,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        //Init data
+        etFade = (EditText) findViewById(R.id.et_fade);
+        etRain = (EditText) findViewById(R.id.et_rain);
         //TX Gain
         etTxOutput = (EditText) findViewById(R.id.et_tx_output);
         etTxAntennaGain = (EditText) findViewById(R.id.et_tx_antenna_gain);
@@ -627,14 +630,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Fresnel at specific point
         etDistanceObstical = (EditText) findViewById(R.id.et_distance_obstical);
-        etTotalLinkDistance = (EditText) findViewById(R.id.et_total_link_distance);
         tvFresnelRadiusObstical = (TextView) findViewById(R.id.tv_fresnel_radius_obstical);
         tvObstacleClearanceRequired = (TextView) findViewById(R.id.tv_obstacle_clearance_required);
-
-        // 1st Fresnel Radius (at midpoint)
-        etLinkDistance = (EditText) findViewById(R.id.et_link_distance);
-        tv1stFresnelRadius = (TextView) findViewById(R.id.tv_1st_fresnel_radius);
-        tvEarthHeightMidpoint = (TextView) findViewById(R.id.tv_earth_height_midpoint);
 
         // Line Of Site
         etAntenna1Height = (EditText) findViewById(R.id.et_antenna1_height);

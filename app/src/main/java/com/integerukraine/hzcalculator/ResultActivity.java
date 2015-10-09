@@ -17,7 +17,7 @@ public class ResultActivity extends AppCompatActivity {
     DecimalFormat decimalFormat = new DecimalFormat("#.###");
 
     LineChartView lineChartView;
-    TextView totalErp, erpInWatts, tvTotalReceive, tvFresnelRadiusObstical, tvObstacleClearanceRequired, tv1stFresnelRadius, tvEarthHeightMidpoint,
+    TextView totalErp, erpInWatts, tvFreeSpacePathLoss, tvTotalReceive, tvFresnelRadiusObstical, tvObstacleClearanceRequired, tv1stFresnelRadius, tvEarthHeightMidpoint,
             tvWavelengthAlpha, tvTheoreticalBeamwidth, tvLinkBudget, tvSystemOperatingMargin, tvLos, tvControlled, tvUncontrolled, tvControlled2, tvUncontrolled2;
 
     @Override
@@ -33,22 +33,33 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void fillViewsWithData() {
-        totalErp.setText("Total ERP (dB): " + decimalFormat.format(calculations.getTotalErp_dB()));
-        erpInWatts.setText("ERP In Watts: " + decimalFormat.format(calculations.getErpInWatts()));
-        tvTotalReceive.setText("Total Receive (dBm): " + decimalFormat.format(calculations.getTotalReceive_dBm()));
-        tvFresnelRadiusObstical.setText("Total Receive (dBm): " + decimalFormat.format(calculations.getFresnelRadiusAtObstical_M()));
-        tvObstacleClearanceRequired.setText("Obstacle Clearance Required (M): " + decimalFormat.format(calculations.getObstacleClearanceRequired_M()));
-        tv1stFresnelRadius.setText("1st Fresnel Radius (M): " + decimalFormat.format(calculations.getFresnelRadius1st_M()));
-        tvEarthHeightMidpoint.setText("Earth Height -Mid Point (M): " + decimalFormat.format(calculations.getEarthHeightMidpoint_M()));
-        tvWavelengthAlpha.setText("Wavelength λ (m): " + decimalFormat.format(calculations.getWavelengthAlpha_m()));
-        tvTheoreticalBeamwidth.setText("Theoretical 3dB Beamwidtht: " + decimalFormat.format(calculations.getTheoretical3dBBeamwidth()));
-        tvLinkBudget.setText("Link Budget (dB): " + decimalFormat.format(calculations.getLinkBudget_dB()));
-        tvSystemOperatingMargin.setText("System Operating margin (SAD): " + decimalFormat.format(calculations.getSystemOperatingMargin_SAD()));
-        tvLos.setText("LoS (in KM): " + decimalFormat.format(calculations.getLoS_KM()));
-        tvControlled.setText("Controlled Environment (m): " + decimalFormat.format(calculations.getControlledEnvironment_m()));
-        tvUncontrolled.setText("Uncontrolled Environment (m): " + decimalFormat.format(calculations.getReflectionsUncontrolledEnvironment_m()));
-        tvControlled2.setText("Controlled Environment (m): " + decimalFormat.format(calculations.getControlledEnvironment_m()));
-        tvUncontrolled2.setText("Uncontrolled Environment (m): " + decimalFormat.format(calculations.getUncontrolledEnvironment_m()));
+        DecimalFormat tempDecFormat = new DecimalFormat("#.#");
+        totalErp.setText("Total ERP (dB): " + tempDecFormat.format(calculations.getTotalErp_dB()));
+        tempDecFormat.applyPattern("#.##");
+        erpInWatts.setText("ERP In Watts: " + tempDecFormat.format(calculations.getErpInWatts()));
+        tempDecFormat.applyPattern("#.###");
+        tvFreeSpacePathLoss.setText("Free Space Path Loss: " + tempDecFormat.format(calculations.getFreeSpacePathLoss()));
+        tempDecFormat.applyPattern("#.##");
+        tvTotalReceive.setText("Total Receive (dBm): " + tempDecFormat.format(calculations.getTotalReceive_dBm()));
+        tempDecFormat.applyPattern("#.##");
+        tvFresnelRadiusObstical.setText("Fresnel Radius at Obstical (M): " + tempDecFormat.format(calculations.getFresnelRadiusAtObstical_M()));
+        tvObstacleClearanceRequired.setText("Obstacle Clearance Required (M): " + tempDecFormat.format(calculations.getObstacleClearanceRequired_M()));
+        tv1stFresnelRadius.setText("1st Fresnel Radius (M): " + tempDecFormat.format(calculations.getFresnelRadius1st_M()));
+        tvEarthHeightMidpoint.setText("Earth Height -Mid Point (M): " + tempDecFormat.format(calculations.getEarthHeightMidpoint_M()));
+        tempDecFormat.applyPattern("#.###");
+        tvWavelengthAlpha.setText("Wavelength λ (m): " + tempDecFormat.format(calculations.getWavelengthAlpha_m()));
+        tempDecFormat.applyPattern("#.##");
+        tvTheoreticalBeamwidth.setText("Theoretical 3dB Beamwidtht: " + tempDecFormat.format(calculations.getTheoretical3dBBeamwidth()));
+        tempDecFormat.applyPattern("#.###");
+        tvLinkBudget.setText("Link Budget (dB): " + tempDecFormat.format(calculations.getLinkBudget_dB()));
+        tempDecFormat.applyPattern("#.##");
+        tvSystemOperatingMargin.setText("System Operating margin (SAD): " + tempDecFormat.format(calculations.getSystemOperatingMargin_SAD()) + "%");
+        tempDecFormat.applyPattern("#.##");
+        tvLos.setText("LoS (in KM): " + tempDecFormat.format(calculations.getLoS_KM()));
+        tvControlled.setText("Controlled Environment (m): " + tempDecFormat.format(calculations.getReflectionsControlledEnvironment_m()));
+        tvUncontrolled.setText("Uncontrolled Environment (m): " + tempDecFormat.format(calculations.getReflectionsUncontrolledEnvironment_m()));
+        tvControlled2.setText("Controlled Environment (m): " + tempDecFormat.format(calculations.getControlledEnvironment_m()));
+        tvUncontrolled2.setText("Uncontrolled Environment (m): " + tempDecFormat.format(calculations.getUncontrolledEnvironment_m()));
     }
 
     private void initChart() {
@@ -78,6 +89,7 @@ public class ResultActivity extends AppCompatActivity {
 
         totalErp = (TextView) findViewById(R.id.tv_total_erp);
         erpInWatts = (TextView) findViewById(R.id.tv_erp_in_watts);
+        tvFreeSpacePathLoss = (TextView) findViewById(R.id.tv_free_space_path_loss);
         tvTotalReceive = (TextView) findViewById(R.id.tv_total_receive);
         tvFresnelRadiusObstical = (TextView) findViewById(R.id.tv_fresnel_radius_obstical);
         tvObstacleClearanceRequired = (TextView) findViewById(R.id.tv_obstacle_clearance_required);

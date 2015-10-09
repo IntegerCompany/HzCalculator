@@ -177,7 +177,6 @@ public class Calculations implements Serializable {
         uncontrolledEnvironment_m = 0;
         reflectionsControlledEnvironment_m = 0;
         reflectionsUncontrolledEnvironment_m = 0;
-
     }
 
     //=========================================================================================================
