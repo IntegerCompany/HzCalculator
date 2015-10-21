@@ -67,23 +67,23 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void initChart() {
-        String[] x = new String[70];
-        float[] y = new float[70];
-        LineSet dataset = new LineSet();
+        LineSet mainChartDataset = new LineSet();
+        LineSet freeSpaceDataset = new LineSet();
         for (int range = 10; range < 80; range++) {
-            dataset.addPoint(((range % 10) == 0) ? range + "" : "", (float) chartCalculator.calculateCurvedEarth(calculations.getFrequency_MHz(), calculations.getAntenna1(), calculations.getAntenna2(), range, calculations.getPolarization(), calculations.getGroundType(), ChartCalculator.dBm));
+            mainChartDataset.addPoint(((range % 10) == 0) ? range + "" : "", (float) chartCalculator.calculateCurvedEarth(calculations.getFrequency_MHz(), calculations.getAntenna1(), calculations.getAntenna2(), range, calculations.getPolarization(), calculations.getGroundType(), ChartCalculator.dBm));
+            freeSpaceDataset.addPoint(((range % 10) == 0) ? range + "" : "", (float) chartCalculator.calculateCurvedEarth(calculations.getFrequency_MHz(), calculations.getAntenna1(), calculations.getAntenna2(), range, calculations.getPolarization(), ChartCalculator.FREE_SPACE, ChartCalculator.dBm));
         }
-        dataset.setColor(Color.parseColor("#990000"))
-                .setSmooth(true)
+        freeSpaceDataset.setSmooth(true)
                 .setThickness(4f);
-        lineChartView.addData(dataset);
-
-        dataset.setColor(Color.parseColor("#000099"))
-                .setSmooth(true);
+        mainChartDataset.setSmooth(true)
+                .setThickness(4f);
+        freeSpaceDataset.setColor(Color.parseColor("#990000"));
+        mainChartDataset.setColor(Color.parseColor("#000099"));
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#666666"));
         lineChartView.setGrid(ChartView.GridType.HORIZONTAL, paint);
-        lineChartView.addData(dataset);
+        lineChartView.addData(mainChartDataset);
+        lineChartView.addData(freeSpaceDataset);
         lineChartView.setStep(10);
         lineChartView.setAxisBorderValues(-200, -100, 10);
         lineChartView.setShadow(0.5f, 5, 5, Color.parseColor("#999999"));

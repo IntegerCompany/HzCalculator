@@ -78,19 +78,33 @@
                     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Polarisation"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
                     <Spinner
                         android:id="@+id/polarization_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp" />
+                        android:layout_gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Ground type"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <Spinner
                         android:id="@+id/ground_type_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp" />
+                        android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
 
