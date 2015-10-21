@@ -1,6 +1,7 @@
 package com.integerukraine.hzcalculator;
 
 import com.integerukraine.hzcalculator.calculations.Calculations;
+import com.integerukraine.hzcalculator.calculations.ChartCalculator;
 
 import junit.framework.Assert;
 
@@ -10,11 +11,21 @@ import org.junit.Test;
 public class CalculationsTest {
 
     private Calculations calculator = new Calculations();
+    private ChartCalculator chartCalculator = new ChartCalculator();
 
 
     @Before
     public void resetCalculator() {
         calculator.resetCalculator();
+    }
+
+    @Test
+    public void test_chartCalculator() {
+        double totalErpDelta = 0.0001d;
+        double erpInWattsDelta = 0.0001d;
+
+
+        Assert.assertEquals(-141.9912006d, chartCalculator.calculateCurvedEarth(2400, 10, 3000, 150, ChartCalculator.HORIZONTAL, ChartCalculator.AVERAGE, ChartCalculator.dBm));
     }
 
     @Test

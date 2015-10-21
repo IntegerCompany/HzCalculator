@@ -35,6 +35,11 @@ public class Calculations implements Serializable {
     private double uncontrolledEnvironment_m;
     private double reflectionsControlledEnvironment_m;
     private double reflectionsUncontrolledEnvironment_m;
+    private double frequency_MHz;
+    private double antenna1;
+    private double antenna2;
+    private int groundType;
+    private int polarization;
 
 
 
@@ -50,16 +55,21 @@ public class Calculations implements Serializable {
 
     public void calculate_FreeSpacePathLoss(double frequency_MHz, double distance_KM) {
         freeSpacePathLoss = 36.6d + 20d * Math.log10(frequency_MHz * distance_KM / 1.6093d);
+        this.frequency_MHz = frequency_MHz;
     }
 
     public void calculate_FresnelAtSpecificPoint(double distanceToObstical_KM, double distance_KM, double frequency_MHz) {
         fresnelRadiusAtObstical_M = Math.sqrt(((SPEED_OF_LIGHT / (frequency_MHz * 1000000d)) * (distanceToObstical_KM * 1000d) * ((distance_KM - distanceToObstical_KM) * 1000d)) / (distance_KM * 1000d));
         obstacleClearanceRequired_M = fresnelRadiusAtObstical_M * 0.6d;
+        this.frequency_MHz = frequency_MHz;
+
     }
 
     public void calculate_1stFresnelRadiusAtMidpoint(double distance_KM, double frequency_MHz) {
         double linkDistance_KM = distance_KM / 2d;
         double Freq_GHz = frequency_MHz / 1000d;
+        this.frequency_MHz = frequency_MHz;
+
 
         fresnelRadius1st_M = 8.657d * Math.sqrt(linkDistance_KM / Freq_GHz);
         earthHeightMidpoint_M = (((distance_KM * 1000d) * (distance_KM * 1000d)) / 68033.4613333d) / 1000d;
@@ -67,6 +77,8 @@ public class Calculations implements Serializable {
 
     public void calculate_LineOfSite(double antenna1Height_M, double antenna2Height_M) {
         LoS_KM = (3.57d * Math.sqrt(1.33d * antenna1Height_M)) + (3.57 * Math.sqrt(1.33 * antenna2Height_M));
+        antenna1 = antenna1Height_M;
+        antenna2 = antenna2Height_M;
     }
 
     public void calculate_dBmWatts(double power_dBm) {
@@ -99,6 +111,8 @@ public class Calculations implements Serializable {
 
     public void calculate_WavelengthAlpha(double frequency_MHz) {
         wavelengthAlpha_m = SPEED_OF_LIGHT / (frequency_MHz * 1000000d);
+        this.frequency_MHz = frequency_MHz;
+
     }
 
     public void calculate_WattsdBm(double power_Watts) {
@@ -141,6 +155,8 @@ public class Calculations implements Serializable {
         controlledEnvironment_m = frequency_MHz <= 1500 ? (frequency_MHz <= 3 ? (Math.pow(30 * erpInWatts, 0.5) / 614) : (frequency_MHz <= 30 ? ((Math.pow(30 * erpInWatts, 0.5)) / (1842 / frequency_MHz)) : (frequency_MHz <= 300 ? (Math.pow(30 * erpInWatts, 0.5) / 61.4) : (Math.sqrt((erpInWatts * 1000 / frequency_MHz / 300) / (Math.PI * 4)) / 100)))) : (Math.sqrt(((erpInWatts * 1000) / 5) / (Math.PI * 4)) / 100);
         //calculate info for uncontrolledEnvironment_m without reflections
         uncontrolledEnvironment_m = frequency_MHz <= 1500 ? (frequency_MHz <= 3 ? (Math.pow(30 * erpInWatts, 0.5) / 614) : (frequency_MHz <= 30 ? ((Math.pow(30 * erpInWatts, 0.5)) / (824 / frequency_MHz)) : (frequency_MHz <= 300 ? (Math.pow(30 * erpInWatts, 0.5) / 27.5) : (Math.sqrt(((erpInWatts * 1000) / (frequency_MHz / 1500)) / (Math.PI * 4)) / 100)))) : (Math.sqrt((erpInWatts * 1000) / (Math.PI * 4)) / 100);
+        this.frequency_MHz = frequency_MHz;
+
     }
 
     //=========================================================================================================
@@ -283,5 +299,33 @@ public class Calculations implements Serializable {
 
     public double getReflectionsUncontrolledEnvironment_m() {
         return reflectionsUncontrolledEnvironment_m;
+    }
+
+    public double getFrequency_MHz() {
+        return frequency_MHz;
+    }
+
+    public double getAntenna1() {
+        return antenna1;
+    }
+
+    public double getAntenna2() {
+        return antenna2;
+    }
+
+    public int getPolarization() {
+        return polarization;
+    }
+
+    public void setPolarization(int polarization) {
+        this.polarization = polarization;
+    }
+
+    public int getGroundType() {
+        return groundType;
+    }
+
+    public void setGroundType(int groundType) {
+        this.groundType = groundType;
     }
 }

@@ -78,12 +78,20 @@
                     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
-                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                    <Spinner
+                        android:id="@+id/polarization_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:fletTextAppearance="@style/floatlabelededittext">
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp" />
 
-                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                    <Spinner
+                        android:id="@+id/ground_type_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp" />
+
                 </LinearLayout>
 
             </LinearLayout>

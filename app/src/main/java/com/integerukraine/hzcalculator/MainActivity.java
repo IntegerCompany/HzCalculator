@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.integerukraine.hzcalculator.calculations.Calculations;
 
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Init data
     EditText etFade, etRain;
+    Spinner polarizationSpinner, groundTypeSpinner;
     //Tx Gain
     EditText etTxOutput, etTxAntennaGain, etTxCableLosses;
     TextView tvTotalErp, tvErpWatts;
@@ -86,19 +90,55 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try {
         initViews();
+            initSpinners();
         initUiListeners();
-        // initFloatActionButton();
         initSubmitButton();
         initRequiredEditTexts();
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initSpinners() {
+        ArrayList<String> polarization = new ArrayList<String>();
+        polarization.add("Vertical");
+        polarization.add("Horizontal");
+
+        ArrayAdapter<String> polarizationAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item, polarization);
+
+        polarizationAdapter.setDropDownViewResource
+                (android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayList<String> groundType = new ArrayList<String>();
+        groundType.add("Dry");
+        groundType.add("Average");
+        groundType.add("Sea");
+        groundType.add("Water");
+        groundType.add("Wet");
+        groundType.add("Free Space");
+
+        ArrayAdapter<String> groundTypeAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item, groundType);
+
+        groundTypeAdapter.setDropDownViewResource
+                (android.R.layout.simple_spinner_dropdown_item);
+
+        polarizationSpinner.setAdapter(polarizationAdapter);
+        groundTypeSpinner.setAdapter(groundTypeAdapter);
     }
 
     private void initSubmitButton() {
+
         submitBtn = (Button) findViewById(R.id.btn_submit);
         submitBtn.setEnabled(false);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                calculations.setGroundType(groundTypeSpinner.getSelectedItemPosition() + 1);
+                calculations.setPolarization(polarizationSpinner.getSelectedItemPosition() + 1);
                 calculations.calculate_1stFresnelRadiusAtMidpoint(Double.parseDouble(etDistance.getText().toString()), Double.parseDouble(etFrequency.getText().toString()));
                 calculations.calculate_LinkBudget_dB();
                 calculations.calculate_SafeWorkingDistance(Double.parseDouble(etFrequency.getText().toString()));
@@ -155,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //    }
 
-    private void initUiListeners() {
+    private void initUiListeners() throws Exception {
         //init data
         TextWatcher initDataListener = new TextWatcher() {
             @Override
@@ -610,6 +650,8 @@ public class MainActivity extends AppCompatActivity {
         //Init data
         etFade = (EditText) findViewById(R.id.et_fade);
         etRain = (EditText) findViewById(R.id.et_rain);
+        polarizationSpinner = (Spinner) findViewById(R.id.polarization_spinner);
+        groundTypeSpinner = (Spinner) findViewById(R.id.ground_type_spinner);
         //TX Gain
         etTxOutput = (EditText) findViewById(R.id.et_tx_output);
         etTxAntennaGain = (EditText) findViewById(R.id.et_tx_antenna_gain);
