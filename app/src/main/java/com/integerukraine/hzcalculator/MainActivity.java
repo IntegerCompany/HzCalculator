@@ -205,11 +205,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etFade.getText().length() > 0 & etRain.getText().length() > 0) {
                     calculations.init(
                             Double.parseDouble(etFade.getText().toString()),
                             Double.parseDouble(etRain.getText().toString()));
                     submitBtn.setEnabled(isAllRequiredEditTextsFilled());
+                }
+                }catch(NumberFormatException e){
+
                 }
 
             }
@@ -230,20 +234,24 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (etTxOutput.getText().length() > 0 & etTxAntennaGain.getText().length() > 0 & etTxCableLosses.getText().length() > 0) {
-                    calculations.calculate_TxGain(
-                            Double.parseDouble(etTxOutput.getText().toString()),
-                            Double.parseDouble(etTxAntennaGain.getText().toString()),
-                            Double.parseDouble(etTxCableLosses.getText().toString()));
-                    DecimalFormat decimalFormat = new DecimalFormat("#.#");
-                    tvTotalErp.setText("Total ERP (dB): " + decimalFormat.format(calculations.getTotalErp_dB()));
-                    decimalFormat = new DecimalFormat("#.##");
-                    tvErpWatts.setText("ERP In Watts: " + decimalFormat.format(calculations.getErpInWatts()));
-                    submitBtn.setEnabled(isAllRequiredEditTextsFilled());
-                } else {
-                    tvTotalErp.setText("");
-                    tvErpWatts.setText("");
-                }
+ try{
+                    if (etTxOutput.getText().length() > 0 & etTxAntennaGain.getText().length() > 0 & etTxCableLosses.getText().length() > 0) {
+                        calculations.calculate_TxGain(
+                                Double.parseDouble(etTxOutput.getText().toString()),
+                                Double.parseDouble(etTxAntennaGain.getText().toString()),
+                                Double.parseDouble(etTxCableLosses.getText().toString()));
+                        DecimalFormat decimalFormat = new DecimalFormat("#.#");
+                        tvTotalErp.setText("Total ERP (dB): " + decimalFormat.format(calculations.getTotalErp_dB()));
+                        decimalFormat = new DecimalFormat("#.##");
+                        tvErpWatts.setText("ERP In Watts: " + decimalFormat.format(calculations.getErpInWatts()));
+                        submitBtn.setEnabled(isAllRequiredEditTextsFilled());
+                    } else {
+                        tvTotalErp.setText("");
+                        tvErpWatts.setText("");
+                    }
+ }catch(NumberFormatException e){
+
+ }
 
             }
 
@@ -266,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etRxSensivity.getText().length() > 0 & etRxAnntennaGain.getText().length() > 0 & etRxCableLosses.getText().length() > 0) {
                     calculations.calculate_RxGain(
                             Double.parseDouble(etRxSensivity.getText().toString()),
@@ -276,6 +285,9 @@ public class MainActivity extends AppCompatActivity {
                     submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvTotalReceive.setText("");
+                }
+                }catch(NumberFormatException e){
+
                 }
 
             }
@@ -298,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etFrequency.getText().length() > 0 & etDistance.getText().length() > 0) {
                     calculations.calculate_FreeSpacePathLoss(
                             Double.parseDouble(etFrequency.getText().toString()),
@@ -306,6 +319,9 @@ public class MainActivity extends AppCompatActivity {
                     submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvFreeSpacePathLoss.setText("");
+                }
+                }catch(NumberFormatException e){
+
                 }
 
             }
@@ -327,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etDistanceObstical.getText().length() > 0 & etDistance.getText().length() > 0 & etFrequency.getText().length() > 0) {
                     calculations.calculate_FresnelAtSpecificPoint(
                             Double.parseDouble(etDistanceObstical.getText().toString()),
@@ -339,6 +356,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     tvFresnelRadiusObstical.setText("");
                     tvObstacleClearanceRequired.setText("");
+                }
+                }catch(NumberFormatException e){
+
                 }
 
             }
@@ -396,6 +416,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etAntenna1Height.getText().length() > 0 & etAntenna2Height.getText().length() > 0) {
                     calculations.calculate_LineOfSite(
                             Double.parseDouble(etAntenna1Height.getText().toString()),
@@ -405,6 +426,9 @@ public class MainActivity extends AppCompatActivity {
                     submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvLos.setText("");
+                }
+                }catch(NumberFormatException e){
+
                 }
 
             }
@@ -426,6 +450,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etPowerDbm.getText().length() > 0) {
                     calculations.calculate_dBmWatts(
                             Double.parseDouble(etPowerDbm.getText().toString()));
@@ -435,6 +460,10 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     tvPowerWatts.setText("");
                     tvPowerMWatts.setText("");
+                }
+
+                }catch(NumberFormatException e){
+
                 }
 
             }
@@ -455,6 +484,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etPowerWatts.getText().length() > 0) {
                     calculations.calculate_WattsdBm(
                             Double.parseDouble(etPowerWatts.getText().toString()));
@@ -463,7 +493,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     tvPowerDbm.setText("");
                 }
+                }catch(NumberFormatException e){
 
+                }
             }
 
             @Override
@@ -539,6 +571,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etPowerDensityRangeMetres.getText().length() > 0) {
                     calculations.calculate_PowerDensity(
                             Double.parseDouble(etPowerDensityRangeMetres.getText().toString()));
@@ -547,6 +580,9 @@ public class MainActivity extends AppCompatActivity {
                     submitBtn.setEnabled(isAllRequiredEditTextsFilled());
                 } else {
                     tvPowerDensity.setText("");
+                }
+                }catch(NumberFormatException e){
+
                 }
 
             }
@@ -567,6 +603,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etDistanceMiles.getText().length() > 0) {
                     calculations.calculate_DistanceMiles(
                             Double.parseDouble(etDistanceMiles.getText().toString()));
@@ -576,6 +613,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     tvDistanceKilometres.setText("");
                     tvDistanceNaughticalMiles.setText("");
+                }
+                }catch(NumberFormatException e){
+
                 }
 
             }
@@ -596,6 +636,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etDistanceKilometres.getText().length() > 0) {
                     calculations.calculate_DistanceKilometres(
                             Double.parseDouble(etDistanceKilometres.getText().toString()));
@@ -605,6 +646,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     tvDistanceMiles.setText("");
                     tvDistanceNaughticalMiles2.setText("");
+                }
+                }catch(NumberFormatException e){
+
                 }
 
             }
@@ -625,6 +669,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
                 if (etDistanceNaughticalMiles.getText().length() > 0) {
                     calculations.calculate_DistanceNaughticalMiles_NM(
                             Double.parseDouble(etDistanceNaughticalMiles.getText().toString()));
@@ -635,7 +680,9 @@ public class MainActivity extends AppCompatActivity {
                     tvDistanceMiles2.setText("");
                     tvDistanceKilometres2.setText("");
                 }
+                }catch(NumberFormatException e){
 
+                }
             }
 
             @Override
